@@ -6,109 +6,124 @@
 
 """
 Problem Statement: 
-Write a Python program to store marks scored in subject “Fundamental of Data Structure” by N students in the class. Write functions to compute following:
+Write a Python program to store marks scored in subject “Fundamental of Data Structure” by N students in the class. 
+Write functions to compute following:
 a) The average score of class
 b) Highest score and lowest score of class
 c) Count of students who were absent for the test
 d) Display mark with highest frequency
 """
 
+i = 0
+
 def accept(A):
-    n = int(input("Enter the number of students: "))
-    for i in range(n):
-        mark = input("Enter the marks of student (or -1 for absent): ")
-        try:
-            A.append(int(mark))  # Convert to int for calculations
-        except ValueError:
-            print("Invalid input, setting to -1 (absent)")
-            A.append(-1)  # Set as -1 if invalid input
-    return A
+	n = int(input("Enter the number of students: "))
+	for i in range(n):
+		marks = int(input("Enter marks of student (-1 if absent): "))
+		A.append(marks)
+		i +=1
+	return A
 
-def display(A):
-    for mark in A:
-        print(mark)
-    return A
+def disply(A):
+	for i in range(len(A)):
+		if i == len(A)-1:
+			print(A[i], end='\n')
+		else:
+			print(A[i], end=' ')
+	return A
 
-def average(A):
-    total = 0.0
-    count = 0
-    for mark in A:
-        if mark != -1:
-            total += mark
-            count += 1
-    if count == 0:
-        return 0  # Avoid division by zero if no valid marks
-    avg = total / count
-    return avg
+def average_marks(A):
+	sum = 0
+	count = 0 
+	for i in range(len(A)):
+		if A[i] > -1:
+			sum = sum + A[i]
+		count += 1
+	if count == 0:
+		return 0
+	avg = sum/count
+	return avg
+
+def max_score(A):
+	max = A[0]
+	for i in range(len(A)):
+		if A[i]>max:
+			max = A[i]
+	return max
+
+def min_score(A):
+	min = A[0]
+	for i in range(len(A)):
+		if A[i] != -1:
+			if A[i] < min:
+				min = A[i]
+	return min
 
 def absent(A):
-    count = A.count(-1)
-    print(count)
-    return count
+	count = 0
+	for i in range(len(A)):
+		if A[i] == -1:
+			count += 1
+	return count
 
-def minimum(A):
-    valid_marks = [mark for mark in A if mark != -1]
-    if not valid_marks:
-        return None  # Return None if no valid marks
-    return min(valid_marks)
-
-def maximum(A):
-    valid_marks = [mark for mark in A if mark != -1]
-    if not valid_marks:
-        return None  # Return None if no valid marks
-    return max(valid_marks)
-
-def highest_freq(A):
-    from collections import Counter
-    marks = [mark for mark in A if mark != -1]
-    if not marks:
-        print("No valid marks to find frequency.")
-        return None, 0
-    freq_count = Counter(marks)
-    most_common = freq_count.most_common(1)[0]
-    mark, freq = most_common
-    print(f"Marks with highest frequency is {mark} ({freq} times)")
-    return mark, freq
+def high_freq(A):
+	max_count = 0
+	for i in range(len(A)):
+		if A[i] != -1:
+			count = 0
+			for j in range (len(A)):
+				if A[i] == A[j]:
+					count += 1
+			if count > max_count:
+				max_count = count
+				element = A[i]
+	print("Marks with highest frequency is: ", element)
+	print("Frequency is: ", max_count)
+	return
 
 def main():
-    marks_list = []
-    
-    while True:
-        print("\t1: Accept the information")
-        print("\t2: Average marks of the students")
-        print("\t3: Number of students absent")
-        print("\t4: Maximum and minimum marks")
-        print("\t5: Highest frequency marks scored")
-        print("\t6: Exit the program")
+	A = []
+	
+	while True:
+		print()
+		print("********** DISPLAY MENU **********")
+		print("1. Accept and Display")
+		print("2. The average score of class")
+		print("3. Highest and lowest score of class")
+		print("4. Count of absent students")
+		print("5. Marks with highest freqency")
+		print("6. Exit")
 
-        ch = int(input("Enter your choice: "))
+		ch = int(input("Enter choice: "))
+		
+		if ch == 1:
+			accept(A)
+			print("List of marks of students: ")
+			disply(A)
 
-        if ch == 6:
-            print("End of program")
-            break
+		elif ch == 2:
+			x = average_marks(A)
+			print("Average marks of students is: ", x)
 
-        elif ch == 1:
-            accept(marks_list)
-            print("The marks of students are: ")
-            display(marks_list)
+		elif ch == 3:
+			y = max_score(A)
+			z = min_score(A)
+			print("Highest score is: ", y)
+			print("Lowest score is: ", z)
+			
+		elif ch == 4:
+			u = absent(A)
+			print("Total number of students absent are: ", u)
 
-        elif ch == 2:
-            print("The average marks of students are: ")
-            avg = average(marks_list)
-            print(avg)
+		elif ch == 5: 
+			v = high_freq(A)
 
-        elif ch == 3:
-            print("The number of students absent are: ")
-            absent(marks_list)
+		elif ch == 6:
+			print("End of program")
+			break
 
-        elif ch == 4:
-            min_mark = minimum(marks_list)
-            max_mark = maximum(marks_list)
-            print(f"Minimum mark is: {min_mark}")
-            print(f"Maximum mark is: {max_mark}")
-        
-        elif ch == 5:
-            highest_freq(marks_list)
+		else: 
+			print("Invalid choice!!")
 
 main()
 
